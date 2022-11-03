@@ -136,23 +136,23 @@ namespace MusicReviewAppAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ArtistAlbums",
+                name: "AlbumArtists",
                 columns: table => new
                 {
-                    ArtistId = table.Column<int>(type: "int", nullable: false),
-                    AlbumId = table.Column<int>(type: "int", nullable: false)
+                    AlbumId = table.Column<int>(type: "int", nullable: false),
+                    ArtistId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ArtistAlbums", x => new { x.ArtistId, x.AlbumId });
+                    table.PrimaryKey("PK_AlbumArtists", x => new { x.ArtistId, x.AlbumId });
                     table.ForeignKey(
-                        name: "FK_ArtistAlbums_Albums_AlbumId",
+                        name: "FK_AlbumArtists_Albums_AlbumId",
                         column: x => x.AlbumId,
                         principalTable: "Albums",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ArtistAlbums_Artists_ArtistId",
+                        name: "FK_AlbumArtists_Artists_ArtistId",
                         column: x => x.ArtistId,
                         principalTable: "Artists",
                         principalColumn: "Id",
@@ -160,14 +160,14 @@ namespace MusicReviewAppAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AlbumArtists_AlbumId",
+                table: "AlbumArtists",
+                column: "AlbumId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AlbumGenres_GenreId",
                 table: "AlbumGenres",
                 column: "GenreId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ArtistAlbums_AlbumId",
-                table: "ArtistAlbums",
-                column: "AlbumId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Artists_CountryId",
@@ -188,19 +188,19 @@ namespace MusicReviewAppAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AlbumGenres");
+                name: "AlbumArtists");
 
             migrationBuilder.DropTable(
-                name: "ArtistAlbums");
+                name: "AlbumGenres");
 
             migrationBuilder.DropTable(
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Genres");
+                name: "Artists");
 
             migrationBuilder.DropTable(
-                name: "Artists");
+                name: "Genres");
 
             migrationBuilder.DropTable(
                 name: "Albums");

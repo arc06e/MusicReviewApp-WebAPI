@@ -11,7 +11,7 @@ using MusicReviewAppAPI.Data;
 namespace MusicReviewAppAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220601212132_InitialCreate")]
+    [Migration("20221103122327_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,21 @@ namespace MusicReviewAppAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Albums");
+                });
+
+            modelBuilder.Entity("MusicReviewAppAPI.Models.AlbumArtist", b =>
+                {
+                    b.Property<int>("ArtistId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArtistId", "AlbumId");
+
+                    b.HasIndex("AlbumId");
+
+                    b.ToTable("AlbumArtists");
                 });
 
             modelBuilder.Entity("MusicReviewAppAPI.Models.AlbumGenre", b =>
@@ -78,21 +93,6 @@ namespace MusicReviewAppAPI.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Artists");
-                });
-
-            modelBuilder.Entity("MusicReviewAppAPI.Models.ArtistAlbum", b =>
-                {
-                    b.Property<int>("ArtistId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AlbumId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArtistId", "AlbumId");
-
-                    b.HasIndex("AlbumId");
-
-                    b.ToTable("ArtistAlbums");
                 });
 
             modelBuilder.Entity("MusicReviewAppAPI.Models.Country", b =>
@@ -184,6 +184,25 @@ namespace MusicReviewAppAPI.Migrations
                     b.ToTable("Reviewers");
                 });
 
+            modelBuilder.Entity("MusicReviewAppAPI.Models.AlbumArtist", b =>
+                {
+                    b.HasOne("MusicReviewAppAPI.Models.Album", "Album")
+                        .WithMany("ArtistAlbums")
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MusicReviewAppAPI.Models.Artist", "Artist")
+                        .WithMany("ArtistAlbums")
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Album");
+
+                    b.Navigation("Artist");
+                });
+
             modelBuilder.Entity("MusicReviewAppAPI.Models.AlbumGenre", b =>
                 {
                     b.HasOne("MusicReviewAppAPI.Models.Album", "Album")
@@ -214,29 +233,10 @@ namespace MusicReviewAppAPI.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("MusicReviewAppAPI.Models.ArtistAlbum", b =>
-                {
-                    b.HasOne("MusicReviewAppAPI.Models.Album", "Album")
-                        .WithMany("ArtistAlbums")
-                        .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MusicReviewAppAPI.Models.Artist", "Artist")
-                        .WithMany("ArtistAlbums")
-                        .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Album");
-
-                    b.Navigation("Artist");
-                });
-
             modelBuilder.Entity("MusicReviewAppAPI.Models.Review", b =>
                 {
                     b.HasOne("MusicReviewAppAPI.Models.Album", "Album")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("AlbumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -257,6 +257,8 @@ namespace MusicReviewAppAPI.Migrations
                     b.Navigation("AlbumGenres");
 
                     b.Navigation("ArtistAlbums");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("MusicReviewAppAPI.Models.Artist", b =>
