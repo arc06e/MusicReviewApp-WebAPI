@@ -8,7 +8,7 @@ namespace MusicReviewAppAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CountryController : Controller
+    public class CountryController : ControllerBase
     {
         private readonly ICountryRepository _countryRepository;
         private readonly IMapper _mapper;

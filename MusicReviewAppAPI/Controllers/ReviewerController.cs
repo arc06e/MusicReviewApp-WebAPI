@@ -8,7 +8,7 @@ namespace MusicReviewAppAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReviewerController : Controller
+    public class ReviewerController : ControllerBase
     {
         private readonly IReviewerRepository _reviewerRepository;
         private readonly IMapper _mapper;

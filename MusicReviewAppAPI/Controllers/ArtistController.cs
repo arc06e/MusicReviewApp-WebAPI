@@ -8,7 +8,7 @@ namespace MusicReviewAppAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ArtistController : Controller
+    public class ArtistController : ControllerBase
     {
         private readonly IArtistRepository _artistRepository;
         private readonly ICountryRepository _countryRepository;
